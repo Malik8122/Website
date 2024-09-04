@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Museum</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="navbar">
+        <nav>
+            <ul class="menu">
+                <li><a href="#">The Museum</a></li>
+                <li><a href="#">Exhibits</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Donate</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#" class="buy-tickets">Buy Tickets</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="content">
+            <h1>History of Embalming</h1>
+            <p>Any day above ground is a good one.</p>
+            <a href="#">View More</a>
+        </div>
+    </section>
+
+    <div class="chatbot" id="chatbot">
+        <div class="chatbot-header" onclick="toggleChat()">
+            <span class="chatbot-title">Chat with us!</span>
+            <span class="chatbot-minimize" id="chatbot-minimize">-</span>
+        </div>
+        <div class="chatbot-body" id="chatbot-body">
+            <div class="chatbot-messages" id="chatbot-messages">
+                <!-- Messages will appear here -->
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to handle sending messages
+        function sendMessage() {
+            const input = document.getElementById('chat-input').value.trim();
+            if (input === '') return; // Ignore empty messages
+
+            const messagesContainer = document.getElementById('chatbot-messages');
+            messagesContainer.innerHTML += `<div class="message user-message">${input}</div>`;
+
+            document.getElementById('chat-input').value = '';
+
+            const response = generateResponse(input);
+            setTimeout(() => {
+                messagesContainer.innerHTML += `<div class="message bot-message">${response}</div>`;
+                messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to latest message
+            }, 500);
+        }
+
+        function generateResponse(input) {
+            const lowerInput = input.toLowerCase();
+            if (lowerInput.includes('hi') || lowerInput.includes('hello')) {
+                return 'Hello! How can I assist you today?';
+            } else if (lowerInput.includes('ticket')) {
+                return 'You can purchase tickets from our Buy Tickets page.';
+            } else {
+                return 'I am not sure how to respond to that. Can you please provide more details?';
+            }
+        }
+
+        function toggleChat() {
+            const chatBody = document.getElementById('chatbot-body');
+            const chatMinimize = document.getElementById('chatbot-minimize');
+            if (chatBody.style.display === 'none') {
+                chatBody.style.display = 'block';
+                chatMinimize.innerText = '-';
+            } else {
+                chatBody.style.display = 'none';
+                chatMinimize.innerText = '+';
+            }
+        }
+    </script>
+</body>
+</html>
